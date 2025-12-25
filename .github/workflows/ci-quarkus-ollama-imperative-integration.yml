@@ -1,0 +1,35 @@
+name: Build Quarkus with Ollama Imperative integration
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'quarkus-ollama-imperative-integration/**'
+      - '.github/workflows/ci-quarkus-ollama-imperative-integration.yml'
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  MAVEN_VERSION: 3.9.0
+  JAVA_VERSION: 21
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          maven-version: ${{ env.MAVEN_VERSION }}
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build Quarkus with Ollama imperative integration
+        run: mvn clean verify -f quarkus-ollama-imperative-integration/pom.xml

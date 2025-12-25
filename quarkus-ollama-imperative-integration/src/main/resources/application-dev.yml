@@ -1,0 +1,6 @@
+quarkus:
+  langchain4j:
+    chroma:
+      devservices:
+        image-name: chromadb/chroma:1.5.0
+        port: 8000

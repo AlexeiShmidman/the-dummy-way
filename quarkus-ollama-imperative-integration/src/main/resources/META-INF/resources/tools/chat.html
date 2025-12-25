@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Chat (tools support)</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+
+  <body>
+        <div class="chat-container">
+        <br/>
+        <div class="row">
+            <input id="name" class="query-text" type="text" placeholder="your name">
+            <button id="connect" class="upload-btn" type="button">connect</button>
+            <button id="close" class="upload-btn" disabled type="button">close</button>
+            <br/>
+            <br/>
+        </div>
+        <div class="chat-body">
+            <div id="chat"></div>
+        </div>
+        <div class="row">
+            <input class="query-text" id="msg" type="text" placeholder="enter your message">
+            <button class="upload-btn" id="send" type="button" disabled>send</button>
+        </div>
+    
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+        // State
+        let connected = false;
+        let socket;
+        let username = "";
+    
+    
+    
+        $(document).ready(function () {
+            let name = $("#name");
+    
+            $("#connect").click(connect);
+            $("#send").click(send);
+            $("#close").click(close);
+    
+            name.keypress(function (event) {
+                if (event.keyCode == 13 || event.which == 13) {
+                    connect();
+                }
+            });
+    
+            $("#msg").keypress(function (event) {
+                if (event.keyCode == 13 || event.which == 13) {
+                    send();
+                }
+            });
+    
+            $("#chat").change(function () {
+                scrollToBottom();
+            });
+    
+            name.focus();
+        });
+    
+        let connect = function () {
+            if (!connected) {
+                let name = $("#name");
+                username = name.val();
+                socket = new WebSocket("ws://" + location.host + "/llm/chat/" + username);
+                socket.onopen = function () {
+                    connected = true;
+                    console.log("Connected to the web socket");
+                    $("#send").attr("disabled", false);
+                    $("#connect").attr("disabled", true);
+                    $("#close").attr("disabled", false);
+                    name.attr("disabled", true);
+                    $("#msg").focus();
+                };
+                socket.onmessage = function (m) {
+                    const chatMessage = JSON.parse(m.data);
+                    let chat = $("#chat");
+                    switch (chatMessage.type) {
+                        case "USER_JOINED":
+                            if (chatMessage.from !== username) {
+                                chat.append(`<span class='system-message'>${chatMessage.from} joined the chatroom.</span><br>`);
+                            } else {
+                                chat.append(`<span class='message'></span><span class='system-user'>System</span> : <span class="user">${chatMessage.message}</span><br>`);
+                            }
+                            break;
+                        case "USER_LEFT":
+                            chat.append(`<span class='system-message'>${chatMessage.from} left the chatroom.</span><br>`);
+                            break;
+                        case "CHAT_MESSAGE":
+                            chat.append(`<span class='message'></span><span class='system-user'>System</span> : <span class="user">${chatMessage.message}</span><br>`);
+                            break;
+                    }
+                    scrollToBottom();
+                };
+            }
+        };
+        
+        let close = function () {
+          if( connected){
+            socket.onclose = function () {}
+            socket.close();
+            $("#send").attr("disabled", true);
+            $("#connect").attr("disabled", false);
+            $("#close").attr("disabled", true);
+            $("#name").attr("disabled", false);
+            $("#chat").html("");
+          }
+        }
+    
+        let send = function () {
+            if (connected) {
+                let msg = $("#msg");
+                var value = msg.val();
+                var chatMessage = {
+                    type: "CHAT_MESSAGE",
+                    from: username,
+                    message: value
+                };
+                let prompt = `<span class='message'></span><span class='system-user'>${username}</span> : <span class="user">${value} </span><br>`;
+                $("#chat").append(prompt);
+                socket.send(JSON.stringify(chatMessage));
+                msg.val("");
+            }
+        };
+    
+        let scrollToBottom = function () {
+            let chat = $('#chat');
+            chat.scrollTop(chat[0].scrollHeight);
+        };
+    
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG. The Dummy Way</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+  <body>
+    <div class="left">
+      <div class="container">
+          <div class="header">
+              <h3>RAG. Upload files to ChromaDB</h3>
+              <p>Upload files to your Quarkus application</p>
+          </div>
+  
+          <form id="uploadForm">
+              <input type="file" id="fileInput" multiple accept="*/*" style="display: none;">
+              <div class="upload-area" id="uploadArea">
+                  <p>Drag and drop your files here</p>
+                  <p class="hint">or click to select files</p>
+                  <button type="button" class="upload-btn">Choose Files</button>
+              </div>
+  
+              <div class="file-list" id="fileList">
+                  <h3>Selected Files</h3>
+                  <div id="fileContainer"></div>
+              </div>
+  
+              <div id="loading" class="loading">
+                  <div class="spinner"></div>
+                  <p style="margin-top: 10px; color: #666; font-size: 14px;">Uploading...</p>
+                  <div class="progress-bar">
+                      <div class="progress-fill" id="progressFill"></div>
+                  </div>
+              </div>
+  
+              <button type="submit" class="submit-btn" id="submitBtn">Upload Files</button>
+  
+              <div id="message" class="message"></div>
+          </form>
+      </div>
+    </div>
+    <div class="right">
+      <div class="chat-body">
+        <div class="chat-header">
+            <h3>RAG. Chat with LLM</h3>
+        </div>
+        <div class="row">
+            <input class="query-text" id="prompt-msg" type="text" placeholder="enter your message">
+            <button class="upload-btn" id="prompt-send" type="button">send</button>
+        </div>
+        <div id="chat"></div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../js/upload-documents.js"></script>
+    <script src="../js/rag-chat.js">
+    </script>
+
+  </body>
+</html>
