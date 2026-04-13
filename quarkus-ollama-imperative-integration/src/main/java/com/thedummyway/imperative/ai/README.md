@@ -1,18 +1,21 @@
-# Understanding the LangChain4j AI Assistant Implementation
-
-## Overview
-
-This project implements an AI-powered chat assistant using LangChain4j with Ollama as the underlying LLM. The code is structured to provide a flexible, configurable assistant that can maintain conversation memory and use custom tools.
-
-## Core Components
-
-### 1. **Assistant Interface** (`Assistant.java`)
+### 1. **Chat Assistant Interface** (`ChatAssistant.java`)
 ```java
-public interface Assistant {
+public interface ChatAssistant {
     String chat(@MemoryId Object memoryId, @UserMessage String userMessage);
 }
 ```
-- This is a **declarative interface** that LangChain4j uses to create the AI service
+This is an interface that LangChain4j uses to create the AI chat service with a chat memory:
 - `@MemoryId`: Identifies different conversation threads (each user/conversation gets its own memory)
 - `@UserMessage`: The actual user input
-- **Key concept**: LangChain4j automatically implements this interface based on configuration
+
+### 2. **Optical Character Recognition (OCR) Assistant Interface** (`OcrAssistant.java`)
+```java
+public interface OcrAssistant {
+
+  @UserMessage("Extract text from the given image")
+  String chat(Image file);
+}
+```
+This is an interface that LangChain4j uses to create the AI service that accepts an image to send to a LLM that supports OCR (e.g. glm-ocr:bf16)
+
+**Key concept**: LangChain4j automatically implements these interfaces based on configuration when a context for a chat is created

@@ -5,7 +5,7 @@ A tutorial project for AI beginners (Java) that demonstrates how to build and ru
 The project demonstrates basic techniques for working with LLM models programmatically, namely:
 - How to build a chat service (see `ChatAssistant` interface)
 - How to build tools for the model (verify that the model supports tools)
-- How to build OCR chat
+- How to build Optical Character Recognition (OCR) chat
 - How to build RAG with ChromaDB vector database
 - Web search integration (see `WebSearchResult`)
 
