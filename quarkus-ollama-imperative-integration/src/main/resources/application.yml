@@ -1,0 +1,38 @@
+quarkus:
+  http:
+    port: 8082
+  langchain4j:
+    devservices:
+      enabled: false
+ai:
+  model:
+    base-url: http://localhost:11434
+    name: qwen3:8b
+    temperature: 0
+    top-p: 0.9
+    top-k: 40
+    timeout: 240
+    log-responses: true
+    log-requests: true
+    think: true
+    return-thinking: false
+    max-retries: 3
+  ocr:
+    base-url: http://localhost:11434
+    name: glm-ocr:bf16
+    temperature: 0
+    log-responses: true
+    log-requests: true
+    think: false
+    max-retries: 3
+    timeout: 120
+  rag:
+    max-results: 10
+    max-file-size: 2
+    ollama-base-url: http://localhost:11434
+    embedding-model: qwen3-embedding:4b
+    chroma:
+      timeout: 10
+      base-url: http://localhost:8000/
+      collection-name: rag
+ 
