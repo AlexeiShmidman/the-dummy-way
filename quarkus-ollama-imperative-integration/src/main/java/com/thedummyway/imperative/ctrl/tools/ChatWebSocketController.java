@@ -1,6 +1,7 @@
 package com.thedummyway.imperative.ctrl.tools;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import com.thedummyway.imperative.ai.ChatAssistant;
 import com.thedummyway.imperative.ai.tools.ChatAssistantBuilder;
@@ -45,6 +46,10 @@ public class ChatWebSocketController {
 
   @OnClose
   public void onClose() {
+    Optional.ofNullable(connection.id())
+        .map(connectionId -> chatAssistant.getChatMemory(connectionId))
+        .ifPresent(chatMemory -> chatMemory.clear());
+
     if (connection.isOpen()) {
       connection.close();
     }
