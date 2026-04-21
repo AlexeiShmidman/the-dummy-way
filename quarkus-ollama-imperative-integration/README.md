@@ -92,9 +92,7 @@ Also, the project demonstrates how to build chat assistants in multi-context sup
 - If you change the model, update `application.yml` to point to the correct model name and version.
 - For production deployment, review Quarkus and Ollama security and resource configuration.
 
-## License
 
-This project is licensed under the Apache 2.0 License. See the [LICENSE](https://www.apache.org/licenses/LICENSE-2.0) file for details.
 
 ## Acknowledgements
 - [Quarkus](https://quarkus.io/)
