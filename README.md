@@ -31,6 +31,12 @@ This repository contains starter projects, each showcasing different aspects of 
 
 For detailed instructions and project-specific information, please refer to the **README.md** file in each individual project directory.
 
+
+## License
+
+This project is licensed under the Apache 2.0 License. See the [LICENSE](https://www.apache.org/licenses/LICENSE-2.0) file for details.
+
+
 ---
 
 **Start your AI journey the dummy way – one project at a time!**
